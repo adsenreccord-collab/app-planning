@@ -89,7 +89,7 @@ dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:16px 16px 0 0;p
 <button id="ag" style="width:100%;margin-bottom:8px">+ Ajouter une source</button>
 <p class="mu">Fichier : Excel (.xlsx), CSV ou calendrier .ics. Google Sheet : collez le lien (feuille partagée par lien ou publiée en CSV), puis Sync. Google Agenda : collez l’adresse secrète au format iCal (Paramètres de l’agenda), puis Sync ; si le navigateur bloque la lecture, exportez l’agenda (.ics) et importez le fichier. Colonnes Sheet/Excel reconnues : Date, Début, Fin, Titre, Lieu, Notes. Une nouvelle synchronisation remplace seulement les événements importés ; ceux que vous avez modifiés ou ajoutés sont conservés.</p>
 <button id="in" hidden style="width:100%;margin-bottom:8px">Installer l’application</button>
-<p class="mu" id="ver">Version : 24/11 b (sauvegarde Android)</p>
+<p class="mu" id="ver">Version : 24/11 c (messages visibles)</p>
 <p class="mu">Android : dans Chrome, menu ⋮ puis « Installer l’application » (ou le bouton ci-dessus). Les données restent sur l’appareil : faites une Sauvegarde de temps en temps.</p><p class="mu" id="ver">Version : 24/11 – sauvegarde par partage Android</p>
 <h3>Événements passés</h3>
 <label style="display:flex;gap:8px;align-items:center;color:var(--fg)"><input type="checkbox" id="kp" style="width:auto;margin:0">Conserver les événements passés à chaque synchronisation</label>
@@ -132,7 +132,7 @@ try{S=JSON.parse(localStorage.pl1)}catch(e){}
 const NEW=['Perso','RDV','Agen orchestra','Union musical néracaise','Garonne brass band','Shoun brass','Jimbalaya','A bisto de nas'],COL=['#f08c00','#e03131','#3b6cf6','#e8590c','#2f9e44','#ae3ec9','#0c8599','#d6336c'];
 if(!S||!S.g)S={v:2,g:NEW.map((n,i)=>({id:'g'+(i+1),n,c:COL[i],u:''})),e:[],h:[]};
 const save=()=>{try{stamp()}catch(e){}try{localStorage.pl1=JSON.stringify(S)}catch(e){}SYQ();pushP();RS()},
-toast=t=>{const o=$('#to');o.textContent=t;o.hidden=0;clearTimeout(tm);tm=setTimeout(()=>o.hidden=1,3500)};
+toast=t=>{const o=$('#to'),d=document.querySelector('dialog[open]');(d||document.body).appendChild(o);o.textContent=t;o.hidden=0;clearTimeout(tm);tm=setTimeout(()=>o.hidden=1,/^(Échec|Partage)/.test(t)?9000:3500)};
 if(S.v!=2){const MP={'Groupe 1':NEW[2],'Groupe 2':NEW[3],'Groupe 3':NEW[4],'Groupe 4':NEW[5],'Groupe 5':NEW[6],'Médical':NEW[1],'UMN':NEW[3],'GBB':NEW[4]};
 S.g.forEach(g=>{if(MP[g.n])g.n=MP[g.n]});NEW.forEach((n,i)=>{if(!S.g.some(g=>g.n==n))S.g.push({id:'g'+uid(),n,c:COL[i],u:''})});
 const ix=g=>{const k=NEW.indexOf(g.n);return k<0?99:k};S.g.sort((a,b)=>ix(a)-ix(b));S.v=2;save()}
