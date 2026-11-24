@@ -65,15 +65,31 @@ dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:16px 16px 0 0;p
 .wj{border-left:1px solid var(--ln);border-bottom:1px solid var(--ln);font-size:10px;color:var(--mu);padding:1px;min-height:16px}.wj .wv{position:static;display:block;margin:1px 0;height:auto}
 .wg{position:relative}.wg i{position:absolute;right:3px;font-size:10px;font-style:normal;color:var(--mu);transform:translateY(-6px)}
 .wc{position:relative;border-left:1px solid var(--ln);background:repeating-linear-gradient(var(--ln) 0 1px,transparent 1px 36px)}
-.wv{position:absolute;box-sizing:border-box;overflow:hidden;font-size:10px;line-height:1.15;padding:1px 2px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 22%,var(--cd));color:var(--fg);border-radius:3px;cursor:pointer}.wv.k{outline:1px solid #e03131}
+.wv{position:absolute;box-sizing:border-box;overflow:hidden;font-size:10px;line-height:1.15;padding:1px 2px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 22%,var(--cd));color:var(--fg);border-radius:3px;cursor:pointer}.wv.k{outline:1px solid #e03131}.wv.sl{outline:2px solid var(--ac)}
+.ev.sl{outline:2px solid var(--ac)}.ev.sl:before{content:"✔";grid-column:1/-1;color:var(--ac);font-size:12px}
+#sb{position:fixed;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:6;background:var(--cd);border-top:2px solid var(--ac);padding:6px 8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}#sb button{min-height:40px;padding:2px 10px}#sb span{flex:1;min-width:90px;font-size:13px}
+.bf{display:grid;grid-template-columns:auto 1fr;gap:6px 8px;align-items:center}.bf>label{display:contents}.bf input[type=checkbox]{width:auto;margin:0}.bf .bc{display:flex;gap:6px}
 [hidden]{display:none!important}
 .zr{display:flex;gap:6px;align-items:center;margin-bottom:6px}.zr button{min-height:36px;padding:2px 10px}
 .rt{border-collapse:collapse;width:100%;font-size:13px}.rt th,.rt td{border:1px solid var(--ln);padding:4px 6px;text-align:left}.rt th{background:var(--cd)}.rt tr.y td{background:#fff176;color:#1b2333}
 </style></head><body>
 <div class="bar"><button id="pv" aria-label="Mois précédent">‹</button><h1 id="ti"><select id="mo" aria-label="Mois"></select> <input type="number" id="yr" min="1900" max="2100" aria-label="Année"></h1><button id="nx" aria-label="Mois suivant">›</button>
-<button id="tdy">Aujourd’hui</button><nav class="tb"><button id="vw">Agenda</button><button id="pb">Présence</button><button id="cf">Conflits</button><button id="so">Sources</button><button id="ad" class="pr" aria-label="Ajouter">+</button></nav></div>
+<button id="tdy">Aujourd’hui</button><nav class="tb"><button id="vw">Agenda</button><button id="pb">Présence</button><button id="cf">Conflits</button><button id="sl">Sélection</button><button id="so">Sources</button><button id="ad" class="pr" aria-label="Ajouter">+</button></nav></div>
 <div class="chs" id="ch"></div>
 <div class="wrap" id="wp"><div id="cal"><div id="gr"></div></div><div id="pn"></div></div>
+<div id="sb" hidden><span id="sc"></span><button id="sa">Tout</button><button id="sm" class="pr">Modifier</button><button id="sx" class="dg">Supprimer</button><button id="sq">Fermer</button></div>
+<dialog id="bd"><div class="f"><h2 id="bt">Modifier la sélection</h2><p class="mu">Cochez les champs à changer ; les autres restent inchangés.</p>
+<div class="bf">
+<label><input type="checkbox" data-f="g"><select id="bg"></select></label>
+<label><input type="checkbox" data-f="t"><input id="bti" placeholder="Nouveau titre"></label>
+<label><input type="checkbox" data-f="s"><span class="bc"><input type="time" id="bs" aria-label="Début"><input type="time" id="be" aria-label="Fin"></span></label>
+<label><input type="checkbox" data-f="l"><input id="bl" placeholder="Nouveau lieu (vide = effacer)"></label>
+<label><input type="checkbox" data-f="p"><select id="bp"><option value="">Présence non renseignée</option><option value="p">Présent</option><option value="a">Absent</option></select></label>
+<label><input type="checkbox" data-f="np"><select id="bn"><option value="0">Partagé (dans rapport et lien)</option><option value="1">Ne pas partager (privé)</option></select></label>
+<label><input type="checkbox" data-f="sh"><input type="number" id="bj" placeholder="Décaler de N jours (ex. 7 ou -1)"></label>
+<label><input type="checkbox" data-f="o"><textarea id="bo" rows="2" placeholder="Notes (remplace ; vide = effacer)"></textarea></label>
+</div>
+<div class="r"><button id="bv" class="pr">Appliquer</button><button id="bk">Annuler</button></div></div></dialog>
 <dialog id="ed"><div class="f"><label>Groupe<select id="eg"></select></label><label>Titre<input id="et"></label><div class="r"><label>Date<input type="date" id="edt"></label><label id="ef">Date de fin (facultatif)<input type="date" id="edf"></label></div>
 <div class="r"><label>Début<input type="time" id="es"></label><label>Fin<input type="time" id="ee"></label></div>
 <div class="r" id="rp"><label>Répéter<select id="er"><option value="">Jamais</option><option value="d">Chaque jour</option><option value="w">Chaque semaine</option><option value="m">Chaque mois</option></select></label><label>Jusqu’au (vide = 1 an)<input type="date" id="eu"></label></div>
@@ -89,7 +105,7 @@ dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:16px 16px 0 0;p
 <button id="ag" style="width:100%;margin-bottom:8px">+ Ajouter une source</button>
 <p class="mu">Fichier : Excel (.xlsx), CSV ou calendrier .ics. Google Sheet : collez le lien (feuille partagée par lien ou publiée en CSV), puis Sync. Google Agenda : collez l’adresse secrète au format iCal (Paramètres de l’agenda), puis Sync ; si le navigateur bloque la lecture, exportez l’agenda (.ics) et importez le fichier. Colonnes Sheet/Excel reconnues : Date, Début, Fin, Titre, Lieu, Notes. Une nouvelle synchronisation remplace seulement les événements importés ; ceux que vous avez modifiés ou ajoutés sont conservés.</p>
 <button id="in" hidden style="width:100%;margin-bottom:8px">Installer l’application</button>
-<p class="mu" id="ver">Version : 24/11 e (enregistrement sur le téléphone)</p>
+<p class="mu" id="ver">Version : 24/11 f (modification multiple)</p>
 <p class="mu">Android : dans Chrome, menu ⋮ puis « Installer l’application » (ou le bouton ci-dessus). Les données restent sur l’appareil : faites une Sauvegarde de temps en temps.</p><p class="mu" id="ver">Version : 24/11 – sauvegarde par partage Android</p>
 <h3>Événements passés</h3>
 <label style="display:flex;gap:8px;align-items:center;color:var(--fg)"><input type="checkbox" id="kp" style="width:auto;margin:0">Conserver les événements passés à chaque synchronisation</label>
@@ -127,7 +143,7 @@ iso=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()),
 cap=s=>s[0].toUpperCase()+s.slice(1),
 fmt=k=>cap(new Date(k+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})),
 srt=(a,b)=>a.d.localeCompare(b.d)||(a.s||'').localeCompare(b.s||'');
-let S,V='m',ce=null,tm,CFS=new Set();
+let S,V='m',ce=null,tm,CFS=new Set(),SEL=new Set(),SM=0;
 try{S=JSON.parse(localStorage.pl1)}catch(e){}
 const NEW=['Perso','RDV','Agen orchestra','Union musical néracaise','Garonne brass band','Shoun brass','Jimbalaya','A bisto de nas'],COL=['#f08c00','#e03131','#3b6cf6','#e8590c','#2f9e44','#ae3ec9','#0c8599','#d6336c'];
 if(!S||!S.g)S={v:2,g:NEW.map((n,i)=>({id:'g'+(i+1),n,c:COL[i],u:''})),e:[],h:[]};
@@ -138,7 +154,7 @@ S.g.forEach(g=>{if(MP[g.n])g.n=MP[g.n]});NEW.forEach((n,i)=>{if(!S.g.some(g=>g.n
 const ix=g=>{const k=NEW.indexOf(g.n);return k<0?99:k};S.g.sort((a,b)=>ix(a)-ix(b));S.v=2;save()}
 const now=new Date(),td=iso(now);let y=now.getFullYear(),m=now.getMonth(),sel=td;
 const col=e=>(S.g.find(g=>g.id==e.g)||{}).c||'#888';
-function item(e){const g=S.g.find(g=>g.id==e.g)||{};return`<div class="ev${CFS.has(e.id)?' k':''}" data-i="${e.id}" style="--c:${col(e)}"><b>${e.s?e.s+(e.e?'–'+e.e:''):'Journée'}</b><span>${esc(e.t)}</span><small>${esc([e.l,g.n].filter(Boolean).join(' – '))}${e.np?' 🔒':''}</small>${e.d<=td?`<div class="pq"><button data-p="p" class="${e.p=='p'?'pr':''}">Présent</button><button data-p="a" class="${e.p=='a'?'dg on':'dg'}">Absent</button></div>`:e.p?`<small>${e.p=='p'?'Présent':'Absent'}</small>`:''}</div>`}
+function item(e){const g=S.g.find(g=>g.id==e.g)||{};return`<div class="ev${CFS.has(e.id)?' k':''}${SEL.has(e.id)?' sl':''}" data-i="${e.id}" style="--c:${col(e)}"><b>${e.s?e.s+(e.e?'–'+e.e:''):'Journée'}</b><span>${esc(e.t)}</span><small>${esc([e.l,g.n].filter(Boolean).join(' – '))}${e.np?' 🔒':''}</small>${e.d<=td?`<div class="pq"><button data-p="p" class="${e.p=='p'?'pr':''}">Présent</button><button data-p="a" class="${e.p=='a'?'dg on':'dg'}">Absent</button></div>`:e.p?`<small>${e.p=='p'?'Présent':'Absent'}</small>`:''}</div>`}
 function R(){
 const hid=S.h||[],by={},cf=conf();CFS=new Set(cf.flatMap(c=>c.es.map(e=>e.id)));$('#cf').className=cf.length?'dg':'';$('#cf').textContent='Conflits '+cf.length;
 S.e.filter(e=>!hid.includes(e.g)).forEach(e=>(by[e.d]=by[e.d]||[]).push(e));for(const k in by)by[k].sort(srt);
@@ -157,8 +173,8 @@ $('#pv').onclick=()=>mv(-1);$('#nx').onclick=()=>mv(1);
 $('#tdy').onclick=()=>{y=now.getFullYear();m=now.getMonth();sel=td;R()};
 $('#vw').onclick=()=>{V=V=='m'?'s':V=='s'?'a':'m';R()};
 $('#ch').onclick=e=>{const b=e.target.closest('[data-g]');if(!b)return;S.h=S.h||[];const i=S.h.indexOf(b.dataset.g);i<0?S.h.push(b.dataset.g):S.h.splice(i,1);save();R()};
-$('#gr').onclick=e=>{const q=e.target.closest('[data-e]');if(q)return openE(S.e.find(x=>x.id==q.dataset.e));const b=e.target.closest('[data-d]');if(!b)return;sel=b.dataset.d;const d=new Date(sel+'T12:00');y=d.getFullYear();m=d.getMonth();R()};
-$('#pn').onclick=e=>{const b=e.target.closest('[data-i]');if(!b)return;const v=S.e.find(x=>x.id==b.dataset.i),q=e.target.dataset.p;if(q){v.p=v.p==q?'':q;v.x=0;save();R();return}openE(v)};
+$('#gr').onclick=e=>{const q=e.target.closest('[data-e]');if(q&&SM)return tgS(q.dataset.e);if(q)return openE(S.e.find(x=>x.id==q.dataset.e));const b=e.target.closest('[data-d]');if(!b)return;sel=b.dataset.d;const d=new Date(sel+'T12:00');y=d.getFullYear();m=d.getMonth();R()};
+$('#pn').onclick=e=>{const b=e.target.closest('[data-i]');if(!b)return;if(SM)return tgS(b.dataset.i);const v=S.e.find(x=>x.id==b.dataset.i),q=e.target.dataset.p;if(q){v.p=v.p==q?'':q;v.x=0;save();R();return}openE(v)};
 function openE(e){ce=e||null;$('#eg').innerHTML=S.g.map(g=>`<option value="${g.id}">${esc(g.n)}</option>`).join('');
 const v=e||{g:((S.g.find(g=>!(S.h||[]).includes(g.id)))||S.g[0]).id,t:'',d:sel,s:'',e:'',l:'',o:''};
 $('#eg').value=v.g;$('#ep').value=v.p||'';$('#et').value=v.t;$('#edt').value=v.d;$('#es').value=v.s||'';$('#ee').value=v.e||'';$('#el').value=v.l||'';$('#eo').value=v.o||'';$('#enp').checked=!!v.np;
@@ -172,6 +188,24 @@ if(ce){if(ce.r&&$('#ek').checked){const{d:_,...q}=o;S.e.filter(x=>x.r==ce.r).for
 if(ds.length>1){const r=ce.r||uid();ce.r=r;ds.slice(1).forEach(k=>S.e.push({...o,id:uid(),d:k,r}))}}
 else{const r=ds.length>1?uid():0;ds.forEach((k,i)=>S.e.push({...o,id:uid(),d:k,p:i?'':pp,...(r?{r}:{})}))}
 const dd=new Date(d+'T12:00');y=dd.getFullYear();m=dd.getMonth();sel=d;save();R();$('#ed').close()};
+
+function tgS(i){SEL.has(i)?SEL.delete(i):SEL.add(i);SBR();R()}
+function SBR(){$('#sb').hidden=!SM;$('#sl').className=SM?'pr':'';$('#sc').textContent=SEL.size+' sélectionné'+(SEL.size>1?'s':'');document.body.style.paddingBottom=SM?'60px':''}
+$('#sl').onclick=()=>{SM=!SM;if(!SM)SEL.clear();SBR();R()};
+$('#sq').onclick=()=>{SM=0;SEL.clear();SBR();R()};
+$('#sa').onclick=()=>{const ids=[...$('#pn').querySelectorAll('[data-i]')].map(b=>b.dataset.i);const all=ids.length&&ids.every(i=>SEL.has(i));ids.forEach(i=>all?SEL.delete(i):SEL.add(i));SBR();R()};
+$('#sx').onclick=()=>{const l=S.e.filter(e=>SEL.has(e.id));if(!l.length)return toast('Aucun événement sélectionné');if(!confirm('Supprimer '+l.length+' événement(s) ?'))return;delEv(l);SEL.clear();SBR()};
+$('#sm').onclick=()=>{if(!SEL.size)return toast('Aucun événement sélectionné');$('#bt').textContent='Modifier '+SEL.size+' événement'+(SEL.size>1?'s':'');$('#bg').innerHTML=S.g.map(g=>`<option value="${g.id}">${esc(g.n)}</option>`).join('');$('#bd').querySelectorAll('[data-f]').forEach(c=>c.checked=false);['bti','bs','be','bl','bo','bj'].forEach(i=>$('#'+i).value='');$('#bp').value='';$('#bn').value='0';$('#bd').showModal()};
+$('#bd').addEventListener('input',e=>{const l=e.target.closest('label');const c=l&&l.querySelector('[data-f]');if(c&&e.target!==c)c.checked=true});
+$('#bd').addEventListener('change',e=>{const l=e.target.closest('label');const c=l&&l.querySelector('[data-f]');if(c&&e.target!==c)c.checked=true});
+$('#bk').onclick=()=>$('#bd').close();
+$('#bv').onclick=()=>{const f={};$('#bd').querySelectorAll('[data-f]').forEach(c=>{if(c.checked)f[c.dataset.f]=1});if(!Object.keys(f).length)return toast('Cochez au moins un champ');
+if(f.t&&!$('#bti').value.trim())return toast('Titre vide');if(f.sh&&!/^-?\d+$/.test($('#bj').value.trim()))return toast('Décalage invalide');
+if(f.s&&$('#bs').value&&$('#be').value&&$('#be').value<$('#bs').value)return toast('La fin précède le début');
+const l=S.e.filter(e=>SEL.has(e.id));
+l.forEach(e=>{if(f.g)e.g=$('#bg').value;if(f.t)e.t=$('#bti').value.trim();if(f.s){e.s=$('#bs').value;e.e=$('#be').value}if(f.l)e.l=$('#bl').value.trim();if(f.p)e.p=$('#bp').value;if(f.np)e.np=+$('#bn').value;if(f.o)e.o=$('#bo').value.trim();
+if(f.sh){const d=new Date(e.d+'T12:00');d.setDate(d.getDate()+parseInt($('#bj').value,10));e.d=iso(d)}e.x=0});
+$('#bd').close();SM=0;SEL.clear();SBR();save();R();toast(l.length+' événement(s) mis à jour')};
 $('#dl').onclick=()=>{if(!confirm('Supprimer cet événement ?'))return;delEv([ce]);$('#ed').close()};
 function rr(d,f,u){const c=new Date(d+'T12:00'),a=c.getFullYear(),b=c.getMonth(),n=c.getDate(),lim=u||iso(new Date(a+1,b,n)),out=[];
 for(let i=0;i<2400&&out.length<800;i++){const x=f=='d'?new Date(a,b,n+i):f=='w'?new Date(a,b,n+7*i):new Date(a,b+i,n);if(f=='m'&&x.getDate()!=n)continue;const k=iso(x);if(k>lim)break;out.push(k)}return out}
@@ -462,11 +496,11 @@ setInterval(()=>{if(!document.hidden)SYN(0)},12e4);document.addEventListener('vi
 function WK(by){const d0=new Date(sel+'T12:00'),mo=new Date(d0);mo.setDate(d0.getDate()-(d0.getDay()+6)%7);const D=[0,1,2,3,4,5,6].map(i=>{const x=new Date(mo);x.setDate(mo.getDate()+i);return iso(x)}),mn=t=>+t.slice(0,2)*60+ +t.slice(3,5),H=.6;let a=420,b=1320;
 D.forEach(k=>(by[k]||[]).forEach(e=>{if(e.s){a=Math.min(a,mn(e.s));b=Math.max(b,e.e&&e.e>e.s?mn(e.e):mn(e.s)+60)}}));a=Math.floor(a/60)*60;b=Math.min(1440,Math.ceil(b/60)*60);
 let h='<div class="wk1"><div></div>'+D.map(k=>{const x=new Date(k+'T12:00');return`<button class="wd${k==td?' t':''}${k==sel?' s':''}" data-d="${k}">${'Lun Mar Mer Jeu Ven Sam Dim'.split(' ')[(x.getDay()+6)%7]}<b>${x.getDate()}</b></button>`}).join('');
-h+='<div class="wj">Jour</div>'+D.map(k=>`<div class="wj">${(by[k]||[]).filter(e=>!e.s).map(e=>`<span class="wv${CFS.has(e.id)?' k':''}" data-e="${e.id}" style="--c:${col(e)}">${esc(e.t)}</span>`).join('')}</div>`).join('');
+h+='<div class="wj">Jour</div>'+D.map(k=>`<div class="wj">${(by[k]||[]).filter(e=>!e.s).map(e=>`<span class="wv${CFS.has(e.id)?' k':''}${SEL.has(e.id)?' sl':''}" data-e="${e.id}" style="--c:${col(e)}">${esc(e.t)}</span>`).join('')}</div>`).join('');
 h+=`<div class="wg" style="height:${(b-a)*H}px">`+Array.from({length:(b-a)/60},(_,i)=>`<i style="top:${i*60*H}px">${p2(a/60+i)}h</i>`).join('')+'</div>';
 D.forEach(k=>{const es=(by[k]||[]).filter(e=>e.s).map(e=>({e,s:mn(e.s),f:Math.min(b,Math.max(mn(e.s)+20,e.e&&e.e>e.s?mn(e.e):mn(e.s)+60))})).sort((p,q)=>p.s-q.s),cl=[];let cu=null;
 es.forEach(o=>{if(!cu||o.s>=cu.end){cu={end:0,L:[],it:[]};cl.push(cu)}let i=cu.L.findIndex(v=>v<=o.s);if(i<0){i=cu.L.length;cu.L.push(0)}cu.L[i]=o.f;cu.end=Math.max(cu.end,o.f);o.l=i;cu.it.push(o)});cl.forEach(c=>c.it.forEach(o=>o.n=c.L.length));
-h+=`<div class="wc" data-d="${k}" style="height:${(b-a)*H}px">`+es.map(o=>`<span class="wv${CFS.has(o.e.id)?' k':''}" data-e="${o.e.id}" style="--c:${col(o.e)};top:${(o.s-a)*H}px;height:${(o.f-o.s)*H-1}px;left:${o.l*100/o.n}%;width:${100/o.n}%">${esc(o.e.t)}</span>`).join('')+'</div>'});
+h+=`<div class="wc" data-d="${k}" style="height:${(b-a)*H}px">`+es.map(o=>`<span class="wv${CFS.has(o.e.id)?' k':''}${SEL.has(o.e.id)?' sl':''}" data-e="${o.e.id}" style="--c:${col(o.e)};top:${(o.s-a)*H}px;height:${(o.f-o.s)*H-1}px;left:${o.l*100/o.n}%;width:${100/o.n}%">${esc(o.e.t)}</span>`).join('')+'</div>'});
 $('#gr').className='wk';$('#gr').innerHTML=h+'</div>';
 $('#pn').innerHTML=`<h2>${fmt(sel)}</h2>`+((by[sel]||[]).map(item).join('')||'<p class="mu">Aucun événement ce jour.</p>')}
 setInterval(NT,6e4);document.addEventListener('visibilitychange',()=>{if(!document.hidden)NT()});NT();RS2();
