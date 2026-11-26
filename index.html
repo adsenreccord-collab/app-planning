@@ -74,10 +74,10 @@ dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:16px 16px 0 0;p
 .rt{border-collapse:collapse;width:100%;font-size:13px}.rt th,.rt td{border:1px solid var(--ln);padding:4px 6px;text-align:left}.rt th{background:var(--cd)}.rt tr.y td{background:#fff176;color:#1b2333}
 </style></head><body>
 <div class="bar"><button id="pv" aria-label="Mois précédent">‹</button><h1 id="ti"><select id="mo" aria-label="Mois"></select> <input type="number" id="yr" min="1900" max="2100" aria-label="Année"></h1><button id="nx" aria-label="Mois suivant">›</button>
-<button id="tdy">Aujourd’hui</button><nav class="tb"><button id="vw">Agenda</button><button id="pb">Présence</button><button id="cf">Conflits</button><button id="sl">Sélection</button><button id="so">Sources</button><button id="ad" class="pr" aria-label="Ajouter">+</button></nav></div>
+<button id="tdy">Aujourd’hui</button><nav class="tb"><button id="vw">Agenda</button><button id="pb">Présence</button><button id="cf">Conflits</button><button id="xsel">Sélection</button><button id="so">Sources</button><button id="ad" class="pr" aria-label="Ajouter">+</button></nav></div>
 <div class="chs" id="ch"></div>
 <div class="wrap" id="wp"><div id="cal"><div id="gr"></div></div><div id="pn"></div></div>
-<div id="sb" hidden><span id="sc"></span><button id="sa">Tout</button><button id="sm" class="pr">Modifier</button><button id="sx" class="dg">Supprimer</button><button id="sq">Fermer</button></div>
+<div id="sb" hidden><span id="sc"></span><button id="sa">Tout</button><button id="xmod" class="pr">Modifier</button><button id="sx" class="dg">Supprimer</button><button id="sq">Fermer</button></div>
 <dialog id="bd"><div class="f"><h2 id="bt">Modifier la sélection</h2><p class="mu">Cochez les champs à changer ; les autres restent inchangés.</p>
 <div class="bf">
 <label><input type="checkbox" data-f="g"><select id="bg"></select></label>
@@ -86,7 +86,7 @@ dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:16px 16px 0 0;p
 <label><input type="checkbox" data-f="l"><input id="bl" placeholder="Nouveau lieu (vide = effacer)"></label>
 <label><input type="checkbox" data-f="p"><select id="bp"><option value="">Présence non renseignée</option><option value="p">Présent</option><option value="a">Absent</option></select></label>
 <label><input type="checkbox" data-f="np"><select id="bn"><option value="0">Partagé (dans rapport et lien)</option><option value="1">Ne pas partager (privé)</option></select></label>
-<label><input type="checkbox" data-f="sh"><input type="number" id="bj" placeholder="Décaler de N jours (ex. 7 ou -1)"></label>
+<label><input type="checkbox" data-f="sh"><input type="number" id="xbj" placeholder="Décaler de N jours (ex. 7 ou -1)"></label>
 <label><input type="checkbox" data-f="o"><textarea id="bo" rows="2" placeholder="Notes (remplace ; vide = effacer)"></textarea></label>
 </div>
 <div class="r"><button id="bv" class="pr">Appliquer</button><button id="bk">Annuler</button></div></div></dialog>
@@ -105,7 +105,7 @@ dialog{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:16px 16px 0 0;p
 <button id="ag" style="width:100%;margin-bottom:8px">+ Ajouter une source</button>
 <p class="mu">Fichier : Excel (.xlsx), CSV ou calendrier .ics. Google Sheet : collez le lien (feuille partagée par lien ou publiée en CSV), puis Sync. Google Agenda : collez l’adresse secrète au format iCal (Paramètres de l’agenda), puis Sync ; si le navigateur bloque la lecture, exportez l’agenda (.ics) et importez le fichier. Colonnes Sheet/Excel reconnues : Date, Début, Fin, Titre, Lieu, Notes. Une nouvelle synchronisation remplace seulement les événements importés ; ceux que vous avez modifiés ou ajoutés sont conservés.</p>
 <button id="in" hidden style="width:100%;margin-bottom:8px">Installer l’application</button>
-<p class="mu" id="ver">Version : 24/11 f (modification multiple)</p>
+<p class="mu" id="ver">Version : 25/11 g (modification multiple, sauvegarde)</p>
 <p class="mu">Android : dans Chrome, menu ⋮ puis « Installer l’application » (ou le bouton ci-dessus). Les données restent sur l’appareil : faites une Sauvegarde de temps en temps.</p><p class="mu" id="ver">Version : 24/11 – sauvegarde par partage Android</p>
 <h3>Événements passés</h3>
 <label style="display:flex;gap:8px;align-items:center;color:var(--fg)"><input type="checkbox" id="kp" style="width:auto;margin:0">Conserver les événements passés à chaque synchronisation</label>
@@ -190,21 +190,21 @@ else{const r=ds.length>1?uid():0;ds.forEach((k,i)=>S.e.push({...o,id:uid(),d:k,p
 const dd=new Date(d+'T12:00');y=dd.getFullYear();m=dd.getMonth();sel=d;save();R();$('#ed').close()};
 
 function tgS(i){SEL.has(i)?SEL.delete(i):SEL.add(i);SBR();R()}
-function SBR(){$('#sb').hidden=!SM;$('#sl').className=SM?'pr':'';$('#sc').textContent=SEL.size+' sélectionné'+(SEL.size>1?'s':'');document.body.style.paddingBottom=SM?'60px':''}
-$('#sl').onclick=()=>{SM=!SM;if(!SM)SEL.clear();SBR();R()};
+function SBR(){$('#sb').hidden=!SM;$('#xsel').className=SM?'pr':'';$('#sc').textContent=SEL.size+' sélectionné'+(SEL.size>1?'s':'');document.body.style.paddingBottom=SM?'60px':''}
+$('#xsel').onclick=()=>{SM=!SM;if(!SM)SEL.clear();SBR();R()};
 $('#sq').onclick=()=>{SM=0;SEL.clear();SBR();R()};
 $('#sa').onclick=()=>{const ids=[...$('#pn').querySelectorAll('[data-i]')].map(b=>b.dataset.i);const all=ids.length&&ids.every(i=>SEL.has(i));ids.forEach(i=>all?SEL.delete(i):SEL.add(i));SBR();R()};
 $('#sx').onclick=()=>{const l=S.e.filter(e=>SEL.has(e.id));if(!l.length)return toast('Aucun événement sélectionné');if(!confirm('Supprimer '+l.length+' événement(s) ?'))return;delEv(l);SEL.clear();SBR()};
-$('#sm').onclick=()=>{if(!SEL.size)return toast('Aucun événement sélectionné');$('#bt').textContent='Modifier '+SEL.size+' événement'+(SEL.size>1?'s':'');$('#bg').innerHTML=S.g.map(g=>`<option value="${g.id}">${esc(g.n)}</option>`).join('');$('#bd').querySelectorAll('[data-f]').forEach(c=>c.checked=false);['bti','bs','be','bl','bo','bj'].forEach(i=>$('#'+i).value='');$('#bp').value='';$('#bn').value='0';$('#bd').showModal()};
+$('#xmod').onclick=()=>{if(!SEL.size)return toast('Aucun événement sélectionné');$('#bt').textContent='Modifier '+SEL.size+' événement'+(SEL.size>1?'s':'');$('#bg').innerHTML=S.g.map(g=>`<option value="${g.id}">${esc(g.n)}</option>`).join('');$('#bd').querySelectorAll('[data-f]').forEach(c=>c.checked=false);['bti','bs','be','bl','bo','xbj'].forEach(i=>$('#'+i).value='');$('#bp').value='';$('#bn').value='0';$('#bd').showModal()};
 $('#bd').addEventListener('input',e=>{const l=e.target.closest('label');const c=l&&l.querySelector('[data-f]');if(c&&e.target!==c)c.checked=true});
 $('#bd').addEventListener('change',e=>{const l=e.target.closest('label');const c=l&&l.querySelector('[data-f]');if(c&&e.target!==c)c.checked=true});
 $('#bk').onclick=()=>$('#bd').close();
 $('#bv').onclick=()=>{const f={};$('#bd').querySelectorAll('[data-f]').forEach(c=>{if(c.checked)f[c.dataset.f]=1});if(!Object.keys(f).length)return toast('Cochez au moins un champ');
-if(f.t&&!$('#bti').value.trim())return toast('Titre vide');if(f.sh&&!/^-?\d+$/.test($('#bj').value.trim()))return toast('Décalage invalide');
+if(f.t&&!$('#bti').value.trim())return toast('Titre vide');if(f.sh&&!/^-?\d+$/.test($('#xbj').value.trim()))return toast('Décalage invalide');
 if(f.s&&$('#bs').value&&$('#be').value&&$('#be').value<$('#bs').value)return toast('La fin précède le début');
 const l=S.e.filter(e=>SEL.has(e.id));
 l.forEach(e=>{if(f.g)e.g=$('#bg').value;if(f.t)e.t=$('#bti').value.trim();if(f.s){e.s=$('#bs').value;e.e=$('#be').value}if(f.l)e.l=$('#bl').value.trim();if(f.p)e.p=$('#bp').value;if(f.np)e.np=+$('#bn').value;if(f.o)e.o=$('#bo').value.trim();
-if(f.sh){const d=new Date(e.d+'T12:00');d.setDate(d.getDate()+parseInt($('#bj').value,10));e.d=iso(d)}e.x=0});
+if(f.sh){const d=new Date(e.d+'T12:00');d.setDate(d.getDate()+parseInt($('#xbj').value,10));e.d=iso(d)}e.x=0});
 $('#bd').close();SM=0;SEL.clear();SBR();save();R();toast(l.length+' événement(s) mis à jour')};
 $('#dl').onclick=()=>{if(!confirm('Supprimer cet événement ?'))return;delEv([ce]);$('#ed').close()};
 function rr(d,f,u){const c=new Date(d+'T12:00'),a=c.getFullYear(),b=c.getMonth(),n=c.getDate(),lim=u||iso(new Date(a+1,b,n)),out=[];
@@ -271,9 +271,10 @@ if(!c)continue;const i=l.indexOf(':');if(i<0)continue;const k=l.slice(0,i).split
 if(k=='EXDATE')c.x.push(...v.split(',').map(s=>s.slice(0,8)));else if(!c[k])c[k]=v}return out}
 function CPL(n){const C=window.Capacitor;if(C.Plugins&&C.Plugins[n])return C.Plugins[n];if(typeof C.registerPlugin=='function')return C.registerPlugin(n);if(typeof C.nativePromise=='function')return new Proxy({},{get:(_,m)=>o=>C.nativePromise(n,m,o||{})});throw new Error('Plugin '+n+' indisponible')}
 async function ndl(n,t,ty){const FS=CPL('Filesystem'),SH=CPL('Share'),u=typeof t=='string'?new TextEncoder().encode(t):new Uint8Array(t);let b='';for(let i=0;i<u.length;i+=8192)b+=String.fromCharCode.apply(null,u.subarray(i,i+8192));b=btoa(b);
-try{try{await FS.requestPermissions()}catch(x){}await FS.writeFile({path:'Planning/'+n,data:b,directory:'DOCUMENTS',recursive:true});return toast('Enregistré sur le téléphone : Documents/Planning/'+n)}catch(x){}
-const r=await FS.writeFile({path:n,data:b,directory:'CACHE'});await SH.share({title:n,url:r.uri,dialogTitle:'Enregistrer ou envoyer'})}
-function dl(n,t,ty){if(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()){toast('Préparation du fichier…');ndl(n,t,ty).catch(async e=>{const m=String(e&&e.message||e);if(/cancel|abort/i.test(m))return;try{if(typeof t=='string'){await navigator.clipboard.writeText(t);return toast('Partage impossible ('+m.slice(0,70)+'). Contenu copié : collez-le dans une note ou un mail.')}}catch(x){}toast('Échec : '+m.slice(0,90))});return}const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.userAgent.includes('Mac')&&navigator.maxTouchPoints>1);
+let ok='',er='';try{try{await FS.requestPermissions()}catch(x){}const w=await FS.writeFile({path:'Planning/'+n,data:b,directory:'DOCUMENTS',recursive:true});try{await FS.stat({path:'Planning/'+n,directory:'DOCUMENTS'});ok='Documents/Planning/'+n}catch(x){er='fichier introuvable après écriture'}}catch(x){er=String(x&&x.message||x)}
+if(ok)toast('Enregistré sur le téléphone : '+ok);
+try{const r=await FS.writeFile({path:n,data:b,directory:'CACHE'});await SH.share({title:n,url:r.uri,dialogTitle:ok?'Copie : envoyer ou enregistrer ailleurs':'Enregistrer ou envoyer'})}catch(x){const m=String(x&&x.message||x);if(/cancel|abort/i.test(m)){if(!ok)toast('Non enregistré'+(er?' ('+er.slice(0,80)+')':''));return}throw new Error(m+(er?' / '+er:''))}}
+function dl(n,t,ty){if(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()){toast('Préparation du fichier…');ndl(n,t,ty).catch(async e=>{const m=String(e&&e.message||e);if(/cancel|abort/i.test(m))return;try{if(typeof t=='string'){await navigator.clipboard.writeText(t);return toast('Partage impossible ('+m.slice(0,120)+'). Contenu copié : collez-le dans une note ou un mail.')}}catch(x){}toast('Échec : '+m.slice(0,140))});return}const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.userAgent.includes('Mac')&&navigator.maxTouchPoints>1);
 try{const f=new File([t],n,{type:ty});if(ios&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:n}).catch(()=>{});return}}catch(e){}
 const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:ty}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),999)}
 $('#bj').onclick=()=>dl('planning.json',JSON.stringify(S),'application/json');
